@@ -3,5 +3,6 @@
 ## Bibliotecas
 - Express
 - CORS
+- Mongoose
 
-### npm install express cors
+### npm install express cors mongoose
