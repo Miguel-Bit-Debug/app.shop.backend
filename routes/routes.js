@@ -8,6 +8,22 @@ router.get('/', async (req, res) => {
     return res.status(200).json({ produtos: produtos })
 })
 
+router.get('/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+        const produto = await Produto.findOne({ _id: id })
+
+        if (!produto) {
+            return res.status(400).json({ mensagem: "Produto não encontrado" })
+        }
+
+        return res.status(200).json(produto)
+    } catch (error) {
+        return res.status(500).json({ error: error })
+    }
+})
+
 router.post('/novo-produto', async (req, res) => {
     const { nome, descricao, valor } = req.body
 
@@ -48,7 +64,7 @@ router.delete('/:id', async (req, res) => {
     const id = req.params.id
 
     try {
-        await Produto.deleteOne({_id: id})
+        await Produto.deleteOne({ _id: id })
         return res.status(200).json({ mensagem: "Produto deletado com sucesso." })
     } catch (error) {
         return res.status(500).json({ error: error })
