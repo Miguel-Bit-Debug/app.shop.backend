@@ -13,8 +13,8 @@ router.post('/novo-produto', async (req, res) => {
 
     let validator = Validator(nome, descricao, valor)
 
-    if(validator == false)
-        return res.status(400).json({mensagem: "Necessário preencher todos os campos"})
+    if (validator == false)
+        return res.status(400).json({ mensagem: "Necessário preencher todos os campos" })
 
     const produto = {
         nome,
@@ -24,6 +24,24 @@ router.post('/novo-produto', async (req, res) => {
 
     await Produto.create(produto)
     return res.status(200).json({ mensagem: 'Producto adicionado com sucesso!' })
+})
+
+router.put('/:id', async (req, res) => {
+    const id = req.params.id
+
+    const { nome, descricao, valor } = req.body
+
+    const produto = {
+        nome,
+        descricao,
+        valor
+    }
+    try {
+        await Produto.updateOne({ _id: id }, produto)
+        return res.status(200).json({ mensagem: "Produto atualizado com sucesso." })
+    } catch {
+        return res.status(400).json({ mensagem: "Produto não encontrado." })
+    }
 })
 
 module.exports = router
