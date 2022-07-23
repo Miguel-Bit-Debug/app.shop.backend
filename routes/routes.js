@@ -23,7 +23,7 @@ router.post('/novo-produto', async (req, res) => {
     }
 
     await Produto.create(produto)
-    return res.status(200).json({ mensagem: 'Producto adicionado com sucesso!' })
+    return res.status(201).json({ mensagem: 'Producto adicionado com sucesso!' })
 })
 
 router.put('/:id', async (req, res) => {
@@ -41,6 +41,17 @@ router.put('/:id', async (req, res) => {
         return res.status(200).json({ mensagem: "Produto atualizado com sucesso." })
     } catch {
         return res.status(400).json({ mensagem: "Produto não encontrado." })
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id
+
+    try {
+        await Produto.deleteOne({_id: id})
+        return res.status(200).json({ mensagem: "Produto deletado com sucesso." })
+    } catch (error) {
+        return res.status(500).json({ error: error })
     }
 })
 
